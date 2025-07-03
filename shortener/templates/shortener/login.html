@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="login-wrapper">
+    <div class="login-box">
+        <h2>Авторизація на сайті</h2>
+
+        {% if form.errors %}
+            <div class="error-message">
+                <p><strong>Помилка:</strong> Будь ласка, введіть правильні ім'я користувача та пароль. Обидва поля чутливі до регістру.</p>
+            </div>
+        {% endif %}
+
+        <form method="post">
+            {% csrf_token %}
+            <label for="username">Ім'я користувача:</label>
+            {{ form.username }}
+
+            <label for="password">Пароль:</label>
+            {{ form.password }}
+
+            <button type="submit" class="btn-login">Увійти</button>
+        </form>
+    </div>
+</div>
+{% endblock %}

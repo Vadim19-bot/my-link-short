@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+<div class="main-content">
+  <h1>Особистий кабінет</h1>
+  <p>Вітаємо, <strong>@{{ user.username }}</strong></p>
+  <p>Email: <strong>{{ user.email|default:"(не вказано)" }}</strong></p>
+
+  {% if messages %}
+    {% for message in messages %}
+      <div class="alert-success">{{ message }}</div>
+    {% endfor %}
+  {% endif %}
+
+  <form method="post">
+    {% csrf_token %}
+    <input type="text" name="username" value="{{ user.username }}">
+    <input type="email" name="email" value="{{ user.email }}">
+    <button type="submit" class="cta-button">Оновити</button>
+  </form>
+
+  <a href="{% url 'logout' %}" class="btn btn-red">Вийти</a>
+</div>
+{% endblock %}

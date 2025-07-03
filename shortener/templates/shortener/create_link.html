@@ -1,0 +1,47 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="form-container">
+    <h2>Створення посилань</h2>
+
+    {% if messages %}
+        <ul class="messages">
+            {% for message in messages %}
+                <li class="{{ message.tags }}">{{ message }}</li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+
+    <form method="post">
+        {% csrf_token %}
+        <label>Довге посилання:</label>
+        <input type="url" name="long_url" required maxlength="250" value="{{ request.POST.long_url|default:'' }}">
+
+        <label>Скорочене посилання:</label>
+        <input type="text" name="custom_slug" required value="{{ request.POST.custom_slug|default:'' }}">
+
+        <button type="submit" class="create-button">Створити посилання</button>
+    </form>
+
+    {% if new_link %}
+        <div class="result">
+            Коротке посилання: 
+            <a href="/{{ new_link.short }}">{{ request.get_host }}/{{ new_link.short }}</a>
+        </div>
+    {% endif %}
+</div>
+
+{% if links %}
+    <div class="links-container">
+        <h3>Доступні посилання</h3>
+        <ul class="link-list">
+            {% for link in links %}
+                <li>
+                    Посилання – 
+                    <a href="/{{ link.short }}" class="short-link">/link/{{ link.short }}</a>
+                </li>
+            {% endfor %}
+        </ul>
+    </div>
+{% endif %}
+{% endblock %}

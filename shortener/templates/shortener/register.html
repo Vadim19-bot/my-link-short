@@ -1,0 +1,46 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="form-container">
+    <h2>Реєстрація на сайті</h2>
+
+    <form method="POST" class="auth-form">
+        {% csrf_token %}
+
+        <div class="form-group">
+            <label for="id_username">Ім’я користувача:</label>
+            {{ form.username }}
+            {% if form.username.help_text %}
+                <small class="help-text">{{ form.username.help_text }}</small>
+            {% endif %}
+            {% for error in form.username.errors %}
+                <div class="form-error">{{ error }}</div>
+            {% endfor %}
+        </div>
+
+        <div class="form-group">
+            <label for="id_email">Електронна пошта:</label>
+            {{ form.email }}
+            {% for error in form.email.errors %}
+                <div class="form-error">{{ error }}</div>
+            {% endfor %}
+        </div>
+
+        <div class="form-group">
+            <label for="id_password1">Пароль:</label>
+            {{ form.password1 }}
+            <ul class="help-list">
+                <li>Пароль не повинен співпадати з іменем користувача або особистими даними.</li>
+                <li>Має містити щонайменше 8 символів.</li>
+                <li>Не повинен бути надто поширеним паролем.</li>
+                <li>Не може складатися лише з цифр.</li>
+            </ul>
+            {% for error in form.password1.errors %}
+                <div class="form-error">{{ error }}</div>
+            {% endfor %}
+        </div>
+
+        <button type="submit" class="btn btn-primary">Зареєструватися</button>
+    </form>
+</div>
+{% endblock %}

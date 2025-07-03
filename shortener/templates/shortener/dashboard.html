@@ -1,0 +1,48 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+
+
+{% if messages %}
+        <ul class="messages">
+            {% for message in messages %}
+                <li class="{{ message.tags }}">{{ message }}</li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+
+<div class="profile-container">
+  <h1 class="profile-title">Кабінет користувача</h1>
+  <p class="profile-user">@{{ request.user.username }}</p>
+  <p class="profile-email"><strong>Email:</strong> {{ request.user.email }}</p>
+
+  <form action="{% url 'logout' %}" method="post">
+    {% csrf_token %}
+    <button type="submit" class="cta-button">Вийти з кабінета</button>
+  </form>
+
+  <hr class="profile-divider">
+
+  <h2 class="form-title">Змінити дані про користувача</h2>
+
+  <form method="post" action="{% url 'update_profile' %}" novalidate class="edit-form">
+    {% csrf_token %}
+
+    <label for="id_username">Ім'я користувача:</label>
+    <input type="text" name="username" id="id_username" value="{{ form.username.value|default_if_none:'' }}" required>
+    <small class="form-text">Обов'язкове поле. Не більше 150 символів. Тільки букви, цифри і символи @/./+/-/_</small>
+    {% for error in form.username.errors %}
+      <div class="form-error">{{ error }}</div>
+    {% endfor %}
+
+    <label for="id_email">Email:</label>
+    <input type="email" name="email" id="id_email" value="{{ form.email.value|default_if_none:'' }}" required>
+    {% for error in form.email.errors %}
+      <div class="form-error">{{ error }}</div>
+    {% endfor %}
+
+    <button type="submit" class="cta-button">Оновити дані</button>
+  </form>
+</div>
+{% endblock %}

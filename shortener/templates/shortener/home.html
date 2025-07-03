@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+    <div class="main-content">
+        <h1>Скоро.тим</h1>
+        <p>Швидко скоротимо будь-яке довге посилання для вашого проєкту</p>
+
+        {% if user.is_authenticated %}
+            <a href="{% url 'dashboard' %}" class="btn btn-red">Кабінет користувача</a>
+        {% else %}
+            <a href="{% url 'login' %}" class="btn btn-red">Увійти</a>
+        {% endif %}
+    </div>
+{% endblock %}
